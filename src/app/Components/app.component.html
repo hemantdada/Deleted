@@ -1,0 +1,42 @@
+ <div>
+
+
+
+
+
+   <!-- 
+    <canvas #myCanvas width="400" height="400" style="border:1px solid #000000;"></canvas> 
+    <div>
+       Choose Grid Type <button type="button" (click)="switchShapeTapped(shapeService.shapeType.glinder)">Glinder</button> 
+       <button type="button" (click)="switchShapeTapped(shapeService.shapeType.random)">Random</button><br/> 
+       Delay Between Frames <input type="range" min="1" max="1000" [(ngModel)]="delayBetweenFrames"/>
+    </div>
+  </div>  -->
+
+<!-- <div *ngIf="this.mygrid != undefined"> rr  {{ this.mygrid | json  }}</div>  -->
+<div class="row">
+<table class="table table-hover" *ngIf="this.mygrid != undefined" >
+    <thead>
+      </thead>
+    <tbody>
+        <tr *ngFor="let a of this.mygrid.getRows(); let rowindex = index">
+         <td *ngFor="let b of this.mygrid.getColumn(); let colindex = index" 
+         [ngClass]="(mygrid.myarray[rowindex][colindex]!= 0)?'Active':'NotActive'" > 
+         </td>
+        </tr>
+    </tbody>
+</table> 
+</div>
+<div class="row">
+   Row
+      <input type="text" min="0" id="totalrows" max="99" [(ngModel)]="rows" >
+     </div>
+     <div class="row">
+         Columns
+            
+            <input type="text" min="0" id="totalolumns" max="99" [(ngModel)]="columns" >
+           </div>
+           <div class="row">
+               <button (click)="valuechange()">Chnage</button> </div>
+
+           
