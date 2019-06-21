@@ -10,6 +10,6 @@ https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 5. run `npm install`
 6. run `ng serve`
 7. go to http://localhost:4200/ in your browser
-8. enjoy
+
 
 
