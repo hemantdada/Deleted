@@ -1,21 +1,24 @@
+
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { CoreModule } from '@myApp/core';
+import { SharedModule } from '@myApp/shared';
 import { FormsModule } from '@angular/forms';
-
-
-import { AppComponent } from './Components/app.component';
-import { ShapeService } from './Services/shape.service';
-
-
 @NgModule({
+  imports: [
+    CommonModule,
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    CoreModule.forRoot(),
+    SharedModule.forRoot()
+  ],
   declarations: [
     AppComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule
-  ],
-  providers: [ShapeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,87 @@
+
+<h1>Game Of Life </h1>
+<div>
+  <!-- <div *ngIf="this.gameOflife.mygrid != undefined"> rr  {{ this.mygrid | json  }}</div>  -->
+  <div class="row" class="mainContainer">
+    <table class="table table-hover" *ngIf="this.gameOflife.mygrid != undefined">
+      <thead>
+      </thead>
+      <tbody></tbody>
+      <tr *ngFor="let a of this.gameOflife.mygrid.getRows(); let rowindex = index">
+        <td *ngFor="let b of this.gameOflife.mygrid.getColumn(); let colindex = index"
+          [ngClass]="(gameOflife.mygrid.myarray[rowindex][colindex]!= 0)?'Active':'NotActive'">
+
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <button type="submit" class="btn btn-success"
+     [disabled]="this.gameOflife.currentState==1"
+      (click)="StartClick()">start</button>
+    <button type="submit" class="btn btn-success" [disabled]="this.gameOflife.currentState==0"
+      (click)="Stopclick()">Stop</button>
+  </div>
+
+  <div class="row">
+    <div class="container">
+      <h1>Select other Pattern </h1>
+      <form id="loadpatter" name="loadpatter" #frmloadpatter="ngForm" novalidate>
+        <div class="form-group"> <input type="radio"  name="options" [value]="false" value="0"
+           [(ngModel)]="gameOflife.patterns">
+          MyShape
+          <input type="radio" name="options" [value]="true" 
+          
+          [(ngModel)]="gameOflife.patterns"> random
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-success" (click)="LoadPattern()">Load Pattern</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="container">
+      <h1>Game Of Life</h1>
+      <form id="gameOflife" name="gameOflife" #frmgameoflife="ngForm" novalidate>
+        <div class="form-group">
+          <label for="Rows"> Number of Rows</label>
+          <input type="text" class="form-control" id="totalrows" [ngModelOptions]="{standalone: true}"
+            #totalrows="ngModel" (keypress)="numberOnly($event)" [(ngModel)]="gameOflife.rows" required>
+          <div *ngIf="totalrows.errors?.required  && totalrows.touched" class="alert alert-danger">
+            Number of Rows is required
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+          <label for="columns">Number of Columns</label>
+          <input type="text" class="form-control" #totalolumns="ngModel" id="totalolumns"
+            (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" [(ngModel)]="gameOflife.columns"
+            required>
+          <div *ngIf="totalolumns.errors?.required  && totalolumns.touched" class="alert alert-danger">
+            Number of Columns is required
+          </div>
+
+
+        </div>
+        <div class="form-group">
+          <label for="columns">Step Interval</label>
+          <input type="text" #delayBetweenFrames="ngModel" class="form-control" (keypress)="numberOnly($event)"
+            id="delayBetweenFrames" [ngModelOptions]="{standalone: true}" [(ngModel)]="gameOflife.newdelayBetweenFrames"
+            required>
+
+          <div *ngIf="delayBetweenFrames.errors?.required  && delayBetweenFrames.touched" class="alert alert-danger">
+            Step Interval is required
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-success"
+          [disabled]="delayBetweenFrames.errors?.required||totalrows.errors?.required||totalolumns.errors?.required"
+          (click)="Update()">Update</button>
+
+      </form>
+    </div>

@@ -1,20 +1,24 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../out-tsc/spec",
-    "baseUrl": "./",
+    "allowJs": true,
     "module": "commonjs",
-    "target": "es5",
+    "moduleResolution": "node",
+    "outDir": "../out-tsc/spec",
     "types": [
-      "jasmine",
+      "jest",
       "node"
-    ]
+    ],
   },
+  "lib": ["ES2015", "DOM"],
   "files": [
-    "test.ts"
+    "test.ts",
+    "polyfills.ts",
+    "environments/environment.ts"
   ],
   "include": [
-    "**/*.spec.ts",
+    "app/**/*.ts",
+    "app/**/*.html",
     "**/*.d.ts"
   ]
 }
