@@ -18,6 +18,20 @@
 <button type="submit" class="btn btn-success" [disabled]="this.gameOflife.currentState==1" (click)="StartClick()">Stop</button>
 <button type="submit" class="btn btn-success"  [disabled]="this.gameOflife.currentState==0" (click)="Stopclick()">Stop</button>
 </div>
+
+<div class="row">
+  <div class="container">
+    <h1>Select other Pattern </h1>
+    <form  id="loadpatter" name="loadpatter"  #frmloadpatter="ngForm" novalidate >
+        <div class="form-group">  <input type="radio" name="options"  value="0"  [(ngModel)]="gameOflife.patterns" > MyShape
+        <input type="radio" name="options" value="1"  [(ngModel)]="gameOflife.patterns" > random
+        </div><div class="form-group">
+  <button type="submit" class="btn btn-success"  (click)="LoadPattern()">Load Pattern</button>
+        </div>
+    </form>
+  </div>
+  </div>
+
 <div class="row">
   <div class="container">
     <h1>Game Of Life</h1>

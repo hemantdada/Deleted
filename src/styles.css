@@ -2,7 +2,7 @@
 @import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
 .mainContainer
 {
-  width:1000px;height:1000px;overflow: auto;
+  max-width:1000px;max-height:1000px;overflow: auto;
 }
 table {
     border-collapse: collapse;
@@ -11,7 +11,11 @@ table {
   table, th, td {
     border: 2px solid black;
   }
-
+td{
+  width:1px !important;
+  height:1px !important;
+  padding: 6px !important;
+}
  .Active{
  background-color: brown;
   }
