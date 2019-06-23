@@ -1,9 +1,7 @@
 //this service is initialize by app.component and is responsible for 
 //adding the the right shapes into the grid 
-
-
 import { Injectable } from '@angular/core';
-import { Grid } from '../Models/Grid/grid'
+import { MyGrid } from '../Models/Grid/MyGrid'
  
 @Injectable()
 export class ShapeService {

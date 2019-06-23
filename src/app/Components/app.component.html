@@ -1,42 +1,69 @@
- <div>
-
-
-
-
-
-   <!-- 
-    <canvas #myCanvas width="400" height="400" style="border:1px solid #000000;"></canvas> 
-    <div>
-       Choose Grid Type <button type="button" (click)="switchShapeTapped(shapeService.shapeType.glinder)">Glinder</button> 
-       <button type="button" (click)="switchShapeTapped(shapeService.shapeType.random)">Random</button><br/> 
-       Delay Between Frames <input type="range" min="1" max="1000" [(ngModel)]="delayBetweenFrames"/>
-    </div>
-  </div>  -->
-
-<!-- <div *ngIf="this.mygrid != undefined"> rr  {{ this.mygrid | json  }}</div>  -->
-<div class="row">
-<table class="table table-hover" *ngIf="this.mygrid != undefined" >
+ <div >
+<!-- <div *ngIf="this.gameOflife.mygrid != undefined"> rr  {{ this.mygrid | json  }}</div>  -->
+<div class="row" class="mainContainer" >
+<table class="table table-hover" *ngIf="this.gameOflife.mygrid != undefined" >
     <thead>
       </thead>
-    <tbody>
-        <tr *ngFor="let a of this.mygrid.getRows(); let rowindex = index">
-         <td *ngFor="let b of this.mygrid.getColumn(); let colindex = index" 
-         [ngClass]="(mygrid.myarray[rowindex][colindex]!= 0)?'Active':'NotActive'" > 
+    <tbody></tbody>
+        <tr *ngFor="let a of this.gameOflife.mygrid.getRows(); let rowindex = index">
+         <td *ngFor="let b of this.gameOflife.mygrid.getColumn(); let colindex = index" 
+         [ngClass]="(gameOflife.mygrid.myarray[rowindex][colindex]!= 0)?'Active':'NotActive'" > 
+         
          </td>
         </tr>
     </tbody>
 </table> 
 </div>
 <div class="row">
-   Row
-      <input type="text" min="0" id="totalrows" max="99" [(ngModel)]="rows" >
-     </div>
-     <div class="row">
-         Columns
-            
-            <input type="text" min="0" id="totalolumns" max="99" [(ngModel)]="columns" >
-           </div>
-           <div class="row">
-               <button (click)="valuechange()">Chnage</button> </div>
+<button type="submit" class="btn btn-success" [disabled]="this.gameOflife.currentState==1" (click)="StartClick()">Stop</button>
+<button type="submit" class="btn btn-success"  [disabled]="this.gameOflife.currentState==0" (click)="Stopclick()">Stop</button>
+</div>
+<div class="row">
+  <div class="container">
+    <h1>Game Of Life</h1>
+    <form  id="gameOflife" name="gameOflife" #frmgameoflife="ngForm" novalidate >
+      <div class="form-group">
+        <label for="Rows"> Number of Rows</label>
+        <input type="text" class="form-control"
+       
+         id="totalrows"  [ngModelOptions]="{standalone: true}" #totalrows="ngModel"
+         (keypress)="numberOnly($event)"    [(ngModel)]="gameOflife.rows" required>
+         <div *ngIf="totalrows.errors?.required  && totalrows.touched"    class="alert alert-danger">
+         Number of Rows is required
+    </div>
+    
+      </div>
+     
 
-           
+      <div class="form-group">
+        <label for="columns">Number of Columns</label>
+        <input type="text" class="form-control" 
+        #totalolumns="ngModel"
+        id="totalolumns" (keypress)="numberOnly($event)"  
+        [ngModelOptions]="{standalone: true}"  [(ngModel)]="gameOflife.columns" required>
+        <div *ngIf="totalolumns.errors?.required  && totalolumns.touched"
+        class="alert alert-danger">
+        Number of Columns is required
+   </div>
+   
+
+      </div>
+       <div class="form-group">
+        <label for="columns">Step Interval</label>
+        <input type="text" 
+        #delayBetweenFrames="ngModel"
+        class="form-control" (keypress)="numberOnly($event)"  id="delayBetweenFrames"
+         [ngModelOptions]="{standalone: true}" 
+          [(ngModel)]="gameOflife.newdelayBetweenFrames" required>
+
+          <div *ngIf="delayBetweenFrames.errors?.required  && delayBetweenFrames.touched"
+        class="alert alert-danger">
+        Step Interval is required
+   </div>
+      </div>
+      
+      <button type="submit" class="btn btn-success"  [disabled]="delayBetweenFrames.errors?.required||totalrows.errors?.required||totalolumns.errors?.required" (click)="Update()">Update</button>
+ 
+    </form>
+</div>
+

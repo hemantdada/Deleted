@@ -1,5 +1,6 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
-import { Grid, MyGrid } from '../Models/Grid/grid';
+import { MyGrid } from '../Models/Grid/MyGrid';
+import { GameOflife } from '../Models/GameOfLife/GameOfLife';
 import { ShapeService } from '../Services/shape.service'
 
 @Component({
@@ -9,58 +10,65 @@ import { ShapeService } from '../Services/shape.service'
 }) 
 
 export class AppComponent {
-    mygrid : MyGrid;
-    public rows:number =100;
-    public columns:number=50;
-     public currentState :number=0;
-    //ctx : CanvasRenderingContext2D;
-   // grid : Grid;
-   // delayBetweenFrames : number;
-   delayBetweenFrames = 200;
-    constructor(private shapeService: ShapeService) {
-        //this.delayBetweenFrames = 0;
-    }
-    //@ViewChild("myCanvas") myCanvas: ElementRef; 
+ 
+ public gameOflife :GameOflife= new GameOflife();
    
-    //ngAfterViewInit is called only after the view did load and the canvas is ready
+    constructor(private shapeService: ShapeService) {
+        
+    }
+   
     ngAfterViewInit() {
-       // debugger
-       this.currentState =1;
-        this.mygrid = new MyGrid(this.rows,this.columns); 
-         this.start(this.currentState);
+       
+        this.gameOflife.currentState =1;
+        this.gameOflife.mygrid = new MyGrid(this.gameOflife.rows,this.gameOflife.columns); 
+         this.start(this.gameOflife.currentState);
      }
 
-     valuechange() {
-         debugger
-         this.currentState = 0;
-         this.mygrid  = undefined;
-        
-        this.mygrid = new MyGrid(Number(this.rows),Number(this.columns)); 
-        this.currentState = 1;
-        this.start(this.currentState);
+     Update() {
+         
+         this.gameOflife.currentState = 0;
+         this.gameOflife.mygrid  = undefined;
+         this.gameOflife.delayBetweenFrames = this.gameOflife.newdelayBetweenFrames;
+         this.gameOflife.mygrid = new MyGrid(Number(this.gameOflife.rows),Number(this.gameOflife.columns)); 
+         this.gameOflife.currentState = 1;
+         this.start(this.gameOflife.currentState);
+      }
+      StartClick()
+      {
+        this.gameOflife.currentState=1;
+        this.start(this.gameOflife.currentState);
       }
 
+      Stopclick()
+      {
+        this.gameOflife.currentState=0;
+      }
     start(state) {
                  
-        this.mygrid = this.updateGridWithGameRules();
+        this.gameOflife.mygrid = this.updateGridWithGameRules();
         if(state  != 0 )
         {
               setTimeout(() => {
-            this.start(this.currentState);         
-        }, this.delayBetweenFrames);
+            this.start(this.gameOflife.currentState);         
+        }, this.gameOflife.delayBetweenFrames);
         }
     }
-    // Change() {
-    //     //this.clickMessage = 'You are my hero!';
-    //   }
-
+   
+    numberOnly(event): boolean {
+        const charCode = (event.which) ? event.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+          return false;
+        }
+        return true;
+    
+      }
     updateGridWithGameRules() { 
-        let copyGrid = new MyGrid(this.mygrid.getRows().length, this.mygrid.getColumn().length);
+        let copyGrid = new MyGrid(this.gameOflife.mygrid.getRows().length, this.gameOflife.mygrid.getColumn().length);
         
-        for (let row = 1; row <  this.mygrid.getRows().length - 1; row++) { 
-            for (let column = 1; column < this.mygrid.getColumn().length - 1; column++) { 
+        for (let row = 1; row <  this.gameOflife.mygrid.getRows().length - 1; row++) { 
+            for (let column = 1; column < this.gameOflife.mygrid.getColumn().length - 1; column++) { 
            //debugger
-                let totalCells = this.mygrid.checkSurroundingsCells(row, column);
+                let totalCells = this.gameOflife.mygrid.checkSurroundingsCells(row, column);
                 //apply the rules to each cell:
                 // Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.
                 // Any live cell with two or three live neighbours lives on to the next generation.
@@ -69,7 +77,7 @@ export class AppComponent {
                 switch (totalCells) {
                     
                     case 2:
-                        copyGrid.myarray[row][column] =this.mygrid.myarray[row][column];
+                        copyGrid.myarray[row][column] =this.gameOflife.mygrid.myarray[row][column];
                         break;
                     case 3:
                         copyGrid.myarray[row][column] = 1; 
@@ -82,19 +90,4 @@ export class AppComponent {
         }
         return copyGrid;
     } 
-
-    //start is a function which loops by custom frames
-    // start() {
-    //     this.clearGridFromCanvas();        
-    //     this.drawGridOnCanvas();
-    //     this.grid = this.updateGridWithGameRules();
-    //     setTimeout(() => {
-    //         this.start();         
-    //     }, this.delayBetweenFrames);
-    // }
-
-    // clearGridFromCanvas(){
-    //     this.ctx.clearRect(0, 0, this.grid.getRows, this.grid.getColumn);
-    // }
-
-  }
+ }
