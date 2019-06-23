@@ -3,31 +3,120 @@
 
 module.exports = function (config) {
   config.set({
+
     basePath: '',
-    frameworks: ['jasmine', '@angular/cli'],
+
+    frameworks: ['jasmine', 'karma-typescript'],
+
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
-      require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
-      require('@angular/cli/plugins/karma')
+      require('karma-spec-reporter'),
+      require('karma-html-reporter'),
+      require('karma-spec-tally-reporter'),
+      require('karma-typescript')
     ],
-    client:{
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+
+    client: {
+      clearContext: true // leave Jasmine Spec Runner output visible in browser
     },
-    coverageIstanbulReporter: {
-      reports: [ 'html', 'lcovonly' ],
-      fixWebpackSourcePaths: true
+
+    files: [
+      { pattern: 'src/test.ts' },
+      { pattern: 'src/app/**/*.ts' },
+      { pattern: 'src/app/**/*.html'},
+      { pattern: 'src/environments/environment.ts' },
+      { pattern: 'src/assets/**/*' },
+    ],
+
+    proxies: {
+      "/assets/": "/base/src/assets/"
     },
-    angularCli: {
-      environment: 'dev'
+
+    preprocessors: {
+      '**/*.ts': ['karma-typescript']
     },
-    reporters: ['progress', 'kjhtml'],
+
+    karmaTypescriptConfig: {
+      bundlerOptions: {
+        entrypoints: /\.ts$/,
+        transforms: [
+          require('karma-typescript-angular2-transform'),
+          require('karma-typescript-es6-transform')()
+        ]
+      },
+      tsconfig: './src/tsconfig.spec.json',
+      reports: {
+        html: {
+          directory: './reports/coverage',
+          subdirectory: 'html'
+        },
+        'json-summary': {
+          directory: './reports/coverage',
+          subdirectory: 'json'
+        }
+      }
+    },
+
+    specReporter: {
+      maxLogLines: 5,         // limit number of lines logged per test
+      suppressErrorSummary: false,  // do not print error summary
+      suppressFailed: false,  // do not print information about failed tests
+      suppressPassed: false,  // do not print information about passed tests
+      suppressSkipped: true,  // do not print information about skipped tests
+      showSpecTiming: true // print the time elapsed for each spec
+    },
+
+    htmlReporter: {
+      reportName: 'execution-summary-app', // report summary filename; browser info by default
+      outputDir: __dirname + '/reports/test-execution-summary', // where to put the reports  
+      templatePath: null, // set if you moved jasmine_template.html 
+      focusOnFailures: false, // reports show failures on start 
+      namedFiles: true, // name files instead of creating sub-directories 
+      pageTitle: 'Test Execution Summary', // page title for reports; browser info by default 
+      urlFriendlyName: false, // simply replaces spaces with _ for files/dirs 
+
+      // experimental 
+      preserveDescribeNesting: false, // folded suites stay folded  
+      foldAll: true, // reports start folded (only with preserveDescribeNesting) 
+    },
+
+    specTallyReporter: {
+      console: false, // show error logs on console
+      fileName: 'spec-tally-report',
+      outDir: 'reports/spec-tally-report',
+      writeLog: true, // write logs to given fileName
+      bail: true // invokes process.exit if spec tally mismatch
+    },
+
+    reporters: ['spec', 'karma-typescript', 'html', 'spec-tally'],
+
     port: 9876,
+
     colors: true,
+
     logLevel: config.LOG_INFO,
-    autoWatch: true,
-    browsers: ['Chrome'],
-    singleRun: false
+
+    autoWatch: false,
+
+    browsers: ['ChromeHeadless'],
+
+    customLaunchers: {
+      ChromeHeadless: {
+        base: 'Chrome',
+        flags: [
+          '--no-sandbox',
+          // See https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md
+          '--headless',
+          '--disable-gpu',
+          // Without a remote debugging port, Google Chrome exits immediately.
+          ' --remote-debugging-port=9222'
+        ]
+      }
+    },
+
+    singleRun: true
+
   });
 };
