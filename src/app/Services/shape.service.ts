@@ -27,52 +27,53 @@ export class ShapeService {
     }
   }
 
-  // guns type shape
-  setGlinder(grid) {
-    grid[9][44] = 1;
-    grid[10][42] = 1;
-    grid[10][44] = 1;
-    grid[11][32] = 1;
-    grid[11][33] = 1;
-    grid[11][40] = 1;
-    grid[11][41] = 1;
-    grid[11][54] = 1;
-    grid[11][55] = 1;
-    grid[12][31] = 1;
-    grid[12][35] = 1;
-    grid[12][40] = 1;
-    grid[12][41] = 1;
-    grid[12][54] = 1;
-    grid[12][55] = 1;
-    grid[13][20] = 1;
-    grid[13][21] = 1;
-    grid[13][30] = 1;
-    grid[13][36] = 1;
-    grid[13][40] = 1;
-    grid[13][41] = 1;
-    grid[14][20] = 1;
-    grid[14][21] = 1;
-    grid[14][30] = 1;
-    grid[14][34] = 1;
-    grid[14][36] = 1;
-    grid[14][37] = 1;
-    grid[14][42] = 1;
-    grid[14][44] = 1;
-    grid[15][30] = 1;
-    grid[15][36] = 1;
-    grid[15][44] = 1;
-    grid[16][31] = 1;
-    grid[16][35] = 1;
-    grid[17][32] = 1;
-    grid[17][33] = 1;
+  // grid.myarray type shape
+  setGlinder(grid: MyGrid) {
+    grid.myarray[9][44] = 0;
+    grid.myarray[10][42] = 0;
+    grid.myarray[10][44] = 0;
+    grid.myarray[11][32] = 0;
+    grid.myarray[11][33] = 0;
+    grid.myarray[11][40] = 0;
+    grid.myarray[11][41] = 0;
+    grid.myarray[11][54] = 0;
+    grid.myarray[11][55] = 0;
+    grid.myarray[12][31] = 0;
+    grid.myarray[12][35] = 0;
+    grid.myarray[12][40] = 0;
+    grid.myarray[12][41] = 0;
+    grid.myarray[12][54] = 0;
+    grid.myarray[12][55] = 0;
+    grid.myarray[13][20] = 0;
+    grid.myarray[13][21] = 0;
+    grid.myarray[13][30] = 0;
+    grid.myarray[13][36] = 0;
+    grid.myarray[13][40] = 0;
+    grid.myarray[13][41] = 0;
+    grid.myarray[14][20] = 0;
+    grid.myarray[14][21] = 0;
+    grid.myarray[14][30] = 0;
+    grid.myarray[14][34] = 0;
+    grid.myarray[14][36] = 0;
+    grid.myarray[14][37] = 0;
+    grid.myarray[14][42] = 0;
+    grid.myarray[14][44] = 0;
+    grid.myarray[15][30] = 0;
+    grid.myarray[15][36] = 0;
+    grid.myarray[15][44] = 0;
+    grid.myarray[16][31] = 0;
+    grid.myarray[16][35] = 0;
+    grid.myarray[17][32] = 0;
+    grid.myarray[17][33] = 0;
     return grid;
   }
 
   // random shapes
-  setRandom(grid) {
-    for (let row = 0; row < grid.length; row++) {
-      for (let column = 0; column < grid.length; column++) {
-        grid[row][column] = Math.round(Math.random());
+  setRandom(grid: MyGrid) {
+    grid._build();
+    for (let row = 0; row < grid.getRows().length; row++) {
+      for (let column = 0; column < grid.getColumn().length; column++) {
+        grid.myarray[row][column] = Math.round(Math.random());
       }
     }
     return grid;

@@ -62,10 +62,12 @@ export class AppComponent implements OnInit {
   }
   LoadPattern() {
     this.gameOflife.currentState = 1;
-    if (this.gameOflife.patterns === 0 && this.gameOflife.mygrid.getColumn().length < 50 && this.gameOflife.mygrid.getRows().length < 50) {
+    if (Number(this.gameOflife.patterns) === 0 &&
+      this.gameOflife.mygrid.getColumn().length < 50 && this.gameOflife.mygrid.getRows().length < 50) {
       this.gameOflife.mygrid = new MyGrid(50, 50);
     }
-    this.shapeService.initShapeType(this.gameOflife.patterns, this.gameOflife.mygrid);
+    this.gameOflife.mygrid = new MyGrid(Number(this.gameOflife.rows), Number(this.gameOflife.columns));
+    this.shapeService.initShapeType(Number(this.gameOflife.patterns), this.gameOflife.mygrid);
     this.start(this.gameOflife.currentState);
   }
 

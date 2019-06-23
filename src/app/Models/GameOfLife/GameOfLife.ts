@@ -5,7 +5,7 @@ export class GameOflife {
     public rows = 50;
     public columns = 50;
     public currentState = 0;
-    public delayBetweenFrames = 1000;
-    public newdelayBetweenFrames = 1000;
-    public patterns: number;
+    public delayBetweenFrames = 100000;
+    public newdelayBetweenFrames = 100000;
+    public patterns = false;
 }
